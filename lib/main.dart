@@ -6,7 +6,7 @@ void main() {
 }
 
 class CalculatorApp extends StatelessWidget {
-  const CalculatorApp({Key? key}) : super(key: key);
+  const CalculatorApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class CalculatorApp extends StatelessWidget {
 }
 
 class CalculatorScreen extends StatefulWidget {
-  const CalculatorScreen({Key? key}) : super(key: key);
+  const CalculatorScreen({super.key});
 
   @override
   _CalculatorScreenState createState() => _CalculatorScreenState();
@@ -43,7 +43,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         _isNewCalculation = false;
       } else if (buttonText == '=') {
         try {
-          final evaluator = const ExpressionEvaluator();
+          const evaluator = ExpressionEvaluator();
           final exp = Expression.parse(_expression);
           final result = evaluator.eval(exp, {});
           _result = result.toStringAsFixed(8).replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "");
@@ -95,12 +95,12 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       child: MaterialButton(
         padding: const EdgeInsets.all(24.0),
         onPressed: () => _onButtonPressed(buttonText),
+        color: color,
+        textColor: Colors.black,
         child: Text(
           buttonText,
           style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
-        color: color,
-        textColor: Colors.black,
       ),
     );
   }
@@ -162,13 +162,13 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             children: <Widget>[
               _buildButton('0'),
               _buildButton('.'),
-              _buildButton('=', color: Colors.green),
+              _buildButton('c', color: Colors.red),
               _buildButton('+', color: Colors.orange),
             ],
           ),
           Row(
             children: <Widget>[
-              _buildButton('C', color: Colors.red),
+              _buildButton('=', color: Colors.green),
             ],
           ),
         ],
