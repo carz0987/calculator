@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expressions/expressions.dart';
+import 'dart:math';
 
 void main() {
   runApp(const CalculatorApp());
@@ -53,6 +54,22 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         } catch (e) {
           _result = 'Error';
           _history = '$_expression = Error';
+          _expression = '';
+          _isNewCalculation = true;
+        }
+      } else if (buttonText == 'x²') {
+        try {
+          const evaluator = ExpressionEvaluator();
+          final exp = Expression.parse(_expression);
+          final result = evaluator.eval(exp, {});
+          final squaredResult = pow(result, 2);
+          _result = squaredResult.toStringAsFixed(8).replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "");
+          _history = '$_expression² = $_result';
+          _expression = _result;
+          _isNewCalculation = true;
+        } catch (e) {
+          _result = 'Error';
+          _history = '$_expression² = Error';
           _expression = '';
           _isNewCalculation = true;
         }
@@ -162,13 +179,14 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             children: <Widget>[
               _buildButton('0'),
               _buildButton('.'),
-              _buildButton('c', color: Colors.red),
+              _buildButton('C', color: Colors.red),
               _buildButton('+', color: Colors.orange),
             ],
           ),
           Row(
             children: <Widget>[
               _buildButton('=', color: Colors.green),
+              _buildButton('x²', color: Colors.blue),
             ],
           ),
         ],
